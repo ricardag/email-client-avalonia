@@ -1,0 +1,42 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="ClienteEmail.App"
+             xmlns:local="using:ClienteEmail"
+             RequestedThemeVariant="Default">
+    <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+
+    <Application.Resources>
+        <SolidColorBrush x:Key="PrimaryColor" Color="#512BD4" />
+        <SolidColorBrush x:Key="SecondaryColor" Color="#FF0000" />
+        <SolidColorBrush x:Key="TertiaryColor" Color="#00FF00" />
+        <SolidColorBrush x:Key="QuaternaryColor" Color="#0000FF" />
+        <SolidColorBrush x:Key="BackgroundColor" Color="#F5F5F5" />
+        <SolidColorBrush x:Key="TextColor" Color="#333333" />
+        <SolidColorBrush x:Key="ErrorColor" Color="#FF3B30" />
+        <SolidColorBrush x:Key="SuccessColor" Color="#4CAF50" />
+        <SolidColorBrush x:Key="AccentColor" Color="#007ACC" />
+        <SolidColorBrush x:Key="WarningColor" Color="#FFC107" />
+        <SolidColorBrush x:Key="InfoColor" Color="#2196F3" />
+        <SolidColorBrush x:Key="BorderColor" Color="#CCCCCC" />
+        <SolidColorBrush x:Key="LightBackgroundColor" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="DarkBackgroundColor" Color="#333333" />
+        <SolidColorBrush x:Key="PlaceholderColor" Color="#A0A0A0" />
+        <SolidColorBrush x:Key="ButtonBackgroundColor" Color="#512BD4" />
+        <SolidColorBrush x:Key="ButtonTextColor" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="ButtonBorderColor" Color="#512BD4" />
+        <SolidColorBrush x:Key="ButtonHoverBackgroundColor" Color="#673AB7" />
+        <SolidColorBrush x:Key="ButtonHoverTextColor" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="ButtonActiveBackgroundColor" Color="#3F51B5" />
+        <SolidColorBrush x:Key="ButtonActiveTextColor" Color="#FFFFFF" />
+        <SolidColorBrush x:Key="ButtonDisabledBackgroundColor" Color="#A0A0A0" />
+        <SolidColorBrush x:Key="ButtonDisabledTextColor" Color="#666666" />
+    </Application.Resources>
+</Application>

@@ -1,0 +1,87 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="using:ClienteEmail.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="400" d:DesignHeight="480"
+        x:Class="ClienteEmail.Views.ContaEmailView"
+        x:DataType="vm:ContaEmailViewModel"
+        Title="Conta de E-mail"
+        Width="400" Height="480">
+
+    <Design.DataContext>
+        <vm:ContaEmailViewModel />
+    </Design.DataContext>
+
+    <StackPanel Margin="20">
+        <Grid ColumnDefinitions="*,Auto" Margin="0, 0, 0, 30">
+            <Grid Grid.Column="0" RowDefinitions="*,*">
+                <TextBlock Grid.Row="0" Text="Contas existentes" />
+                <ComboBox Grid.Row="1" HorizontalAlignment="Stretch"
+                          ItemsSource="{Binding Contas}"
+                          DisplayMemberBinding="{Binding Nome}"
+                          SelectedItem="{Binding ContaSelecionada}" />
+            </Grid>
+            <Button Grid.Column="1"
+                    Content="+ Nova conta"
+                    Background="{DynamicResource ButtonBackgroundColor}"
+                    Foreground="{DynamicResource ButtonTextColor}"
+                    VerticalAlignment="Bottom"
+                    Command="{Binding NovaContaCommand}"
+                    Margin="10,0,10,0" />
+        </Grid>
+
+        <TextBlock Text="Tipo de Conta" Margin="0,10,0,5" />
+        <ComboBox HorizontalAlignment="Stretch"
+                  ItemsSource="{Binding TiposConta}"
+                  SelectedItem="{Binding Form.TipoConta}" />
+
+        <TextBlock Text="Nome da Conta" Margin="0,10,0,5" />
+        <TextBox Text="{Binding Form.Nome}" />
+
+        <TextBlock Text="Seu nome" Margin="0,30,0,0" />
+        <TextBox Text="{Binding Form.UserName}" />
+
+        <TextBlock Text="Seu e-mail" Margin="0,10,0,5" />
+        <TextBox Text="{Binding Form.EmailAddress}" />
+
+        <Grid RowDefinitions="*,Auto" Margin="0, 0, 0, 30">
+
+            <Border Grid.Row="0"
+                    Margin="10,20,20,0"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch">
+                <TextBlock Text="{Binding MensagemErro}"
+                           TextAlignment="Center"
+                           VerticalAlignment="Center"
+                           Foreground="Red"
+                           FontSize="12"
+                           TextWrapping="WrapWithOverflow"
+                           HorizontalAlignment="Center" />
+            </Border>
+
+            <Grid Grid.Row="1" ColumnDefinitions="*, Auto" Margin="0,0,0,15">
+                <Button Grid.Column="0"
+                        Content="Apagar"
+                        Background="Red"
+                        Foreground="White"
+                        Command="{Binding ApagarCommand}"
+                        Margin="0,20,0,0" />
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+                    <Button Content="Cancelar"
+                            Background="White"
+                            Foreground="Black"
+                            BorderBrush="Black"
+                            Command="{Binding CancelarCommand}"
+                            Margin="0,0,10,0" />
+
+                    <Button Content="Salvar"
+                            Background="{DynamicResource ButtonBackgroundColor}"
+                            Foreground="{DynamicResource ButtonTextColor}"
+                            Command="{Binding SalvarCommand}" />
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </StackPanel>
+</Window>

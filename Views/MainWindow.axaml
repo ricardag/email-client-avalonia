@@ -1,0 +1,225 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:ClienteEmail.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:webView="using:AvaloniaWebView"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="ClienteEmail.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Cliente de Email">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Grid Margin="20" RowDefinitions="Auto,*">
+
+        <!-- Linha 1: TextBox e Button lado a lado -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto,Auto" Margin="0,0,0,10">
+            <ComboBox Grid.Column="0"
+                      Margin="0,0,10,0"
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding Contas}"
+                      DisplayMemberBinding="{Binding Nome}"
+                      SelectedItem="{Binding ContaSelecionada}" />
+
+
+            <Button Grid.Column="1"
+                    Content="Atualizar"
+                    Command="{Binding ProcessarCommand}"
+                    MinWidth="100"
+                    HorizontalContentAlignment="Center"
+                    IsEnabled="{Binding PodeAtualizar}"
+                    Margin="0,0,10,0" />
+
+            <Button Grid.Column="2"
+                    Content="Contas"
+                    Command="{Binding GerenciarContasEmailCommand}"
+                    CommandParameter="{Binding $parent[Window]}"
+                    MinWidth="100"
+                    HorizontalContentAlignment="Center"
+                    Margin="0" />
+        </Grid>
+
+        <!-- Linha 2: Conteúdo principal com 3 colunas -->
+        <Grid Grid.Row="1" ColumnDefinitions="2*, 3*, 5*">
+
+            <!-- Coluna 1: Nova ListBox (20%) -->
+            <Border Grid.Column="0" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0">
+                <ListBox ScrollViewer.VerticalScrollBarVisibility="Auto" />
+            </Border>
+
+            <!-- Coluna 2: ListBox de Emails (30%) -->
+            <Border Grid.Column="1" BorderBrush="#E0E0E0" BorderThickness="0,0,1,0">
+                <ListBox ItemsSource="{Binding Items}"
+                         SelectedItem="{Binding SelectedItem}"
+                         ScrollViewer.VerticalScrollBarVisibility="Auto"
+                         Background="Transparent"
+                         SelectionMode="Single">
+
+                    <!-- Template customizado para cada item -->
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Padding="1, 16, 12,12"
+                                    BorderBrush="#F0F0F0"
+                                    BorderThickness="0,0,0,1"
+                                    Background="Transparent">
+
+                                <Grid ColumnDefinitions="10,Auto,*,Auto">
+                                    <Border Grid.Column="0"
+                                            Margin="0, 0,5, 0"
+                                            Background="{Binding CorConta }" />
+
+                                    <!-- Avatar/Ícone à esquerda -->
+                                    <Border Grid.Column="1"
+                                            Width="44"
+                                            Height="44"
+                                            CornerRadius="22"
+                                            Background="#4CAF50"
+                                            Margin="0,0,12,0"
+                                            VerticalAlignment="Top">
+                                        <TextBlock Text="{Binding FromInitial}"
+                                                   Foreground="White"
+                                                   FontSize="18"
+                                                   FontWeight="Bold"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
+                                    </Border>
+
+                                    <!-- Conteúdo do email (meio) -->
+                                    <StackPanel Grid.Column="2"
+                                                VerticalAlignment="Top"
+                                                Spacing="4">
+
+                                        <!-- Nome do remetente -->
+                                        <TextBlock Text="{Binding FromName}"
+                                                   FontWeight="SemiBold"
+                                                   FontSize="14"
+                                                   Foreground="#212121"
+                                                   TextTrimming="CharacterEllipsis" />
+
+                                        <!-- Assunto do email -->
+                                        <TextBlock Text="{Binding Subject}"
+                                                   FontSize="13.5"
+                                                   FontWeight="Medium"
+                                                   Foreground="#424242"
+                                                   TextTrimming="CharacterEllipsis" />
+
+                                        <!-- Preview do corpo -->
+                                        <TextBlock Text="{Binding BodyPreview}"
+                                                   FontSize="12"
+                                                   Foreground="#757575"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   MaxLines="2"
+                                                   TextWrapping="Wrap" />
+                                    </StackPanel>
+
+                                    <!-- Data/hora e indicadores à direita -->
+                                    <StackPanel Grid.Column="3"
+                                                VerticalAlignment="Top"
+                                                HorizontalAlignment="Right"
+                                                Margin="12,0,0,0"
+                                                Spacing="8">
+
+                                        <TextBlock Text="{Binding ReceivedTime}"
+                                                   FontSize="11"
+                                                   Foreground="#9E9E9E"
+                                                   HorizontalAlignment="Right" />
+
+                                        <!-- Indicador de não lido -->
+                                        <Ellipse Width="10"
+                                                 Height="10"
+                                                 Fill="#2196F3"
+                                                 HorizontalAlignment="Right"
+                                                 IsVisible="{Binding !IsRead}" />
+
+                                        <!-- Ícone de clipe (anexo) -->
+                                        <TextBlock Text="📎"
+                                                   FontSize="14"
+                                                   HorizontalAlignment="Right"
+                                                   IsVisible="{Binding HasAttachments}" />
+                                    </StackPanel>
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                    <!-- Estilo para itens -->
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="Padding" Value="0" />
+                            <Setter Property="Margin" Value="0" />
+                        </Style>
+
+                        <!-- Hover effect -->
+                        <Style Selector="ListBoxItem:pointerover /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#F8F9FA" />
+                        </Style>
+
+                        <!-- Selected effect -->
+                        <Style Selector="ListBoxItem:selected /template/ ContentPresenter">
+                            <Setter Property="Background" Value="#E3F2FD" />
+                        </Style>
+                    </ListBox.Styles>
+
+                </ListBox>
+            </Border>
+
+            <!-- Coluna 3: Visualizador de HTML (50%) -->
+            <Panel Grid.Column="2">
+                <Grid RowDefinitions="Auto, *" IsVisible="{Binding GridVisivel}">
+                    <Border Grid.Row="0"
+                            Background="#E0E0E0"
+                            VerticalAlignment="Top"
+                            Padding="15"
+                            BorderThickness="1">
+                        <Grid ColumnDefinitions="Auto, *">
+
+                            <Border Grid.Column="0"
+                                    Width="50" Height="50"
+                                    CornerRadius="25"
+                                    Background="#4CAF50"
+                                    Margin="0,0,15,0">
+                                <TextBlock Text="{Binding SelectedItem.FromInitial}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           Foreground="#FFFFFF"
+                                           FontWeight="Bold" />
+                            </Border>
+
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="{Binding SelectedItem.Subject}"
+                                           Foreground="#0056B3"
+                                           FontWeight="SemiBold"
+                                           FontSize="14" />
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="para "
+                                               Foreground="#888"
+                                               FontSize="12" />
+                                    <TextBlock Text="{Binding SelectedItem.ToName}"
+                                               Foreground="#555"
+                                               FontSize="12" />
+                                </StackPanel>
+
+                                <TextBlock Text="{Binding SelectedItem.ReceivedDateTime }"
+                                           Foreground="#0056B3"
+                                           FontSize="12" />
+                            </StackPanel>
+
+                        </Grid>
+                    </Border>
+
+                    <webView:WebView Grid.Row="1" HtmlContent="{Binding SelectedItem.Body}"
+                                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch" />
+                </Grid>
+
+            </Panel>
+        </Grid>
+    </Grid>
+</Window>

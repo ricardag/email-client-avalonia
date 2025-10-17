@@ -1,0 +1,9 @@
+{
+  "Gmail": {
+    "ClientId": "YOUR_CLIENT_ID_HERE",
+    "ClientSecret": "YOUR_CLIENT_SECRET_HERE"
+  },
+  "Office365": {
+    "ClientId": "YOUR_CLIENT_ID_HERE"
+  }
+}
