@@ -1,4 +1,4 @@
-# Avalonia Email Client #
+# MAUI/Avalonia Email Client #
 
 ### THIS IS A WORK IN PROGRESS!!! ###
 
